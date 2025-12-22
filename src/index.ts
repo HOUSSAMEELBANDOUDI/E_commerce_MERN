@@ -1,6 +1,8 @@
 import express, { Application } from "express";
 import mongoose from "mongoose";
 import userRoute from "./routes/userRoute";
+import productRoutes from "./routes/product";
+import { seedProducts } from "./services/productService";
 
 
 const app = express();
@@ -8,6 +10,7 @@ app.use(express.json());
 const PORT = process.env.PORT || 3001;
 
 app.use("/user", userRoute);
+app.use("/product", productRoutes);
 
 // Middleware
 
@@ -20,6 +23,8 @@ mongoose
   .catch((error) => {
     console.error("Failed to connect to MongoDB:", error);
   });
+
+seedProducts();
 
 // Test route
 app.get("/", (req, res) => {
