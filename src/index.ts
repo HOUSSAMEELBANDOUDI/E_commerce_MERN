@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import mongoose from "mongoose";
 import userRoute from "./routes/userRoute";
 import productRoutes from "./routes/product";
+import cartRoute from "./routes/cartRoute";
 import { seedProducts } from "./services/productService";
 
 
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use("/user", userRoute);
 app.use("/product", productRoutes);
+app.use("/cart", cartRoute);
 
 // Middleware
 

@@ -35,7 +35,7 @@ export const register = async ({ firstName, lastName, email, password }: Registe
   // احفظه في الداتا بيز
   await newUser.save();
 
-  return { statusCode: 200, data: generateToken({firstName, lastName, email}) };
+  return { statusCode: 200, data: generateToken({firstName, lastName, email, password}) };
 };
 
 export const login = async ({ email, password }: LoginParams) => {
