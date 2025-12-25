@@ -1,5 +1,5 @@
 import express, { Response } from "express";
-import { getActiveCartForUser, addItemToCart } from "../services/cartService";
+import { getActiveCartForUser, addItemToCart,  updateItemInCart } from "../services/cartService";
 import jwtMiddleware, { AuthRequest } from "../middlewares/validateJWT";
 
 const router = express.Router();
@@ -28,6 +28,20 @@ router.post("/items", jwtMiddleware, async (req: AuthRequest, res: Response) => 
 
   res.status(response.statusCode).send(response.data);
 });
+
+router.put("/items", jwtMiddleware, async (req: AuthRequest, res: Response) => {
+  const userId = req.user._id;
+  const { product, quantity } = req.body;
+
+  const response = await addItemToCart({
+    user: userId,
+    product,
+    quantity,
+  });
+
+  res.status(response.statusCode).send(response.data);
+});
+
 
 
 export default router;
