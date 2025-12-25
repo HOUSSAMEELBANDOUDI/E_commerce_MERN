@@ -52,7 +52,7 @@ export const login = async ({ email, password }: LoginParams) => {
   return { statusCode: 200, data: generateToken({email, firstName: user.firstName, lastName: user.lastName}) };
 };
 
-const JWT_SECRET = "your_super_secret_key_here";
+const JWT_SECRET  = process.env.JWT_SECRET as string;
 const generateToken = (data: any) => {
   return jwt.sign(data, JWT_SECRET); // التوكن صلاحيتها 24 ساعة
 };
