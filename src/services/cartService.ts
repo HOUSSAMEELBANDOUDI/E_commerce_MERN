@@ -10,6 +10,10 @@ interface GetActiveCartForUserParams {
   user: string;
 }
 
+interface ClearCartItem {
+  user: string;
+}
+
 interface AddItemToCartParams {
   user: string;
   product: string;
@@ -156,6 +160,63 @@ export const updateItemInCart = async ({
     statusCode: 200,
     data: updatedCart,
   };
+};
+
+interface IDeleteItemFromCart {
+  user: string;
+  product: string;
+}
+
+export const deleteItemFromCart = async ({ user, product }: IDeleteItemFromCart) => {
+  // Get active cart for user
+  const cart = await getActiveCartForUser({ user });
+  if (!cart) {
+    return { statusCode: 404, data: "Cart not found" };
+  }
+
+  // Check if the item exists in the cart
+  const itemExists = cart.items.find(
+    (item) => item.product._id.toString() === product
+  );
+
+  if (!itemExists) {
+    return { statusCode: 400, data: "Item not in cart" };
+  }
+
+  // Filter out the item to remove
+  const cartItems = cart.items.filter(
+    (item) => item.product._id.toString() !== product
+  );
+
+  // Recalculate total
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.quantity * item.unitPrice,
+    0
+  );
+
+  // Update cart
+  cart.items = cartItems;
+  cart.total = total;
+
+  await cart.save();
+
+  return { statusCode: 200, data: cart };
+};
+export const ClearCart = async ({user} :ClearCartItem ) => {
+  // جلب الكارت الخاص باليوزر
+    const cart = await getActiveCartForUser({ user });
+  if (!cart) {
+    return { statusCode: 404, data: "Cart not found" };
+  }
+
+  // تفريغ كل الايتمز
+  cart.items = [];
+  cart.total = 0;
+
+  // تحديث الكارت
+  await cart.save();
+
+  return { statusCode: 200, data: cart };
 };
 
 
