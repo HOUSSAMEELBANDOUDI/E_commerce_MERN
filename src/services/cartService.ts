@@ -1,6 +1,7 @@
 import CartModel, { CartStatus } from "../models/cartModel";
 import { AuthRequest } from "../middlewares/validateJWT";
 import ProductModel from "../models/productModel";
+import { OrderModel, IOrderItem } from "../models/orderModel";
 
 interface CreateCartForUserParams {
   user: string;
@@ -220,4 +221,64 @@ export const ClearCart = async ({user} :ClearCartItem ) => {
 };
 
 
+
+interface CheckoutParams {
+  user: string;
+  address: string;
+}
+
+export const checkout = async ({ user, address }: CheckoutParams) => {
+  if (!address) {
+    return {
+      statusCode: 400,
+      data: "Please provide address",
+    };
+  }
+
+  const cart = await getActiveCartForUser({ user });
+
+  if (!cart || cart.items.length === 0) {
+    return {
+      statusCode: 400,
+      data: "Cart is empty",
+    };
+  }
+
+  const orderItems: IOrderItem[] = [];
+
+  for (const item of cart.items) {
+    const product = await ProductModel.findById(item.product);
+
+    if (!product) {
+      return {
+        statusCode: 400,
+        data: "Product not found",
+      };
+    }
+
+    orderItems.push({
+      productTitle: product.title,
+      productImage: product.image,
+      unitPrice: product.price,
+      quantity: item.quantity,
+    });
+  }
+
+  const order = await OrderModel.create({
+    orderItems,
+    total: cart.total,
+    address,
+    user,
+  });
+
+  await order.save();
+
+ cart.status = CartStatus.COMPLETED;
+  await cart.save();
+
+  return {
+    statusCode: 201,
+    data: order,
+  };
+};
 

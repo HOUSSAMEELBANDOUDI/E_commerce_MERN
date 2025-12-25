@@ -1,5 +1,5 @@
 import express, { Response } from "express";
-import { getActiveCartForUser, addItemToCart,  updateItemInCart,  deleteItemFromCart, ClearCart } from "../services/cartService";
+import { getActiveCartForUser, addItemToCart,  updateItemInCart,  deleteItemFromCart, ClearCart, checkout } from "../services/cartService";
 import jwtMiddleware, { AuthRequest } from "../middlewares/validateJWT";
 
 const router = express.Router();
@@ -58,6 +58,18 @@ router.delete("/", jwtMiddleware, async (req: AuthRequest, res: Response) => {
   const user = req.user._id;
 
   const response = await ClearCart({ user });
+
+  res.status(response.statusCode).send(response.data);
+});
+
+router.post("/checkout", jwtMiddleware, async (req: AuthRequest, res: Response) => {
+  const userId = req.user._id;
+  const { address } = req.body;
+
+  const response = await checkout({
+    user: userId,
+    address,
+  });
 
   res.status(response.statusCode).send(response.data);
 });
