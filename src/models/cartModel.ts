@@ -7,7 +7,7 @@ export enum CartStatus {
 }
 
 export interface ICartItem  {
-  product: IProduct;  // المنتج نفسه أو مرجع له
+  product: Types.ObjectId | IProduct;  // المنتج نفسه أو مرجع له
   unitPrice: number;           // سعر الوحدة (قد يختلف عن سعر المنتج الأصلي)
   quantity: number;            // الكمية المطلوبة
 }
