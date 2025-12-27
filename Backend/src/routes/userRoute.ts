@@ -14,7 +14,7 @@ router.post("/register", async (req, res) => {
       password,
     });
 
-    res.status(statusCode).send(data);
+    res.status(statusCode).json(data);
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Register failed" });
@@ -30,7 +30,7 @@ router.post("/login", async (req, res) => {
       password,
     });
 
-    res.status(statusCode).send(data);
+    res.status(statusCode).json(data);
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Login failed" });

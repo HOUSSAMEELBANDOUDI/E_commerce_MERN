@@ -16,7 +16,7 @@ function HomePage() {
       try {
         const response = await fetch(`${BASE_URL}/product`);
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         setProducts(data);
       } catch {
         setError(true);
