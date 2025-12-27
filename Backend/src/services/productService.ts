@@ -20,15 +20,21 @@ export const seedProducts = async () => {
     const products = [
       {
         title: "Laptop Dell",
-        image: "https://m.media-amazon.com/images/I/61Qe0euJJZL._AC_SL1500_.jpg",
-        price: 15000,
+        image: "https://images-cdn.ubuy.co.in/635188ad8d2e224aff12d5c3-dell-inspiron-15-5570-15-6-laptop.jpg",
+        price: 150,
         stock: 10,
       },
       {
-        title: "iPhone 14",
-        image: "https://m.media-amazon.com/images/I/61cwywLZR-L._AC_SL1500_.jpg",
-        price: 12000,
-        stock: 5,
+        title: "Laptop Hp",
+        image: "https://recommerceit.co.uk/cdn/shop/files/4-2_021aacd0-30e8-4648-b69b-ceb4bc770c43.jpg?v=1741019123&width=1214",
+        price: 250,
+        stock: 10,
+      },
+       {
+        title: "Laptop acer",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjN89GqDWtX9p1RoRk-B32oydT-w-HnCkiVg&s",
+        price: 320,
+        stock: 10,
       },
     ];
 

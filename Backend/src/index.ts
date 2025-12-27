@@ -7,15 +7,18 @@ import userRoute from "./routes/userRoute";
 import productRoutes from "./routes/product";
 import cartRoute from "./routes/cartRoute";
 import { seedProducts } from "./services/productService";
+import cors from "cors"
 
 
 const app = express();
 app.use(express.json()); 
+app.use(cors());
 const PORT = process.env.PORT || 3001;
 
 app.use("/user", userRoute);
 app.use("/product", productRoutes);
 app.use("/cart", cartRoute);
+
 
 // Middleware
 
