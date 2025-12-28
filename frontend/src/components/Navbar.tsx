@@ -4,9 +4,13 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import LaptopMacIcon from "@mui/icons-material/LaptopMac";
+import { useAuth } from "../context/auth/AuthContext";
 
 function Navbar() {
+   const { username, token } = useAuth();
+    console.log("FROM NAVBAR:", username, token);
   return (
+    
     <AppBar position="static">
       <Toolbar>
         {/* Wrapper */}

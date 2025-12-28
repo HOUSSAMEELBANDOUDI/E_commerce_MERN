@@ -4,8 +4,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useAuth } from "../context/auth/AuthContext";
+
 
 import { BASE_URL } from "../constants/api";
+
+
 
 function RegisterPage() {
   // refs
@@ -13,6 +17,8 @@ function RegisterPage() {
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const { login } = useAuth();
 
   // error state
   const [error, setError] = useState("");
@@ -22,6 +28,7 @@ function RegisterPage() {
     const lastName = lastNameRef.current?.value;
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
+    if (!email ) return ;
 
     try {
       const response = await fetch(`${BASE_URL}/user/register`, {
@@ -42,7 +49,11 @@ function RegisterPage() {
         return;
       }
 
-      const data = await response.json();
+      const token = await response.json();
+
+      if (!token) return;
+
+        login(email, token);
       //console.log("Register success:", data);
 
       // هنا بعدين تقدر:
