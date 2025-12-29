@@ -4,6 +4,9 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LaptopMacIcon from "@mui/icons-material/LaptopMac";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth/AuthContext";
@@ -21,6 +24,10 @@ function Navbar() {
   const handleLogout = () => {
     logout();
     navigate("/");
+  };
+
+  const handleCartClick = () => {
+    navigate("/cart");
   };
 
   return (
@@ -42,9 +49,17 @@ function Navbar() {
 
           {/* Right side */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            {isLoggedIn && (
+              <IconButton color="inherit" onClick={handleCartClick}>
+                <Badge badgeContent={4} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            )}
+
             {isLoggedIn ? (
               <>
-                <Typography variant="body1">{username}</Typography>
+                <Typography>{username}</Typography>
                 <Avatar>
                   {username ? username[0].toUpperCase() : "U"}
                 </Avatar>

@@ -26,10 +26,11 @@ const jwtMiddleware = (
   if (!token) {
     return res.status(403).send("Bearer token wasn't provided");
   }
+  const JWT_SECRET  = process.env.JWT_SECRET as string;
 
   jwt.verify(
     token,
-    "your_super_secret_key_here",
+    JWT_SECRET,
     async (err, payload) => {
       if (err) {
         return res.status(403).send("Invalid token");
