@@ -9,59 +9,49 @@ import { BASE_URL } from "../constants/api";
 import { useNavigate } from "react-router-dom";
 
 
-
-function RegisterPage() {
+function LoginPage() {
   // refs
-  const firstNameRef = useRef<HTMLInputElement>(null);
-  const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const { login } = useAuth();
   const navigate = useNavigate();
 
+
   // error state
   const [error, setError] = useState("");
 
-  const handleRegister = async () => {
-    const firstName = firstNameRef.current?.value;
-    const lastName = lastNameRef.current?.value;
+  const handleLogin = async () => {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
-    if (!email ) return ;
+
+    if (!email || !password) return;
 
     try {
-      const response = await fetch(`${BASE_URL}/user/register`, {
+      const response = await fetch(`${BASE_URL}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          firstName,
-          lastName,
           email,
           password,
         }),
       });
 
       if (!response.ok) {
-        setError("User already exists, try another email");
+        setError("Invalid email or password");
         return;
       }
 
       const token = await response.json();
-
       if (!token) return;
 
-        login(email, token);
-      //console.log("Register success:", data);
-
-      // هنا بعدين تقدر:
-      // - تخزن التوكن
-      // - تعمل redirect للـ homepage
+      login(email, token);
       navigate("/");
 
-    } catch  {
+
+    } catch {
       setError("Something went wrong, try again");
     }
   };
@@ -76,7 +66,7 @@ function RegisterPage() {
         }}
       >
         <Typography variant="h6" mb={2}>
-          Register New Account
+          Login to your account
         </Typography>
 
         <Box
@@ -90,18 +80,6 @@ function RegisterPage() {
             maxWidth: 400,
           }}
         >
-          <TextField
-            label="First Name"
-            inputRef={firstNameRef}
-            fullWidth
-          />
-
-          <TextField
-            label="Last Name"
-            inputRef={lastNameRef}
-            fullWidth
-          />
-
           <TextField
             label="Email"
             inputRef={emailRef}
@@ -117,9 +95,9 @@ function RegisterPage() {
 
           <Button
             variant="contained"
-            onClick={handleRegister}
+            onClick={handleLogin}
           >
-            Register
+            Login
           </Button>
 
           {error && (
@@ -133,4 +111,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default LoginPage;
