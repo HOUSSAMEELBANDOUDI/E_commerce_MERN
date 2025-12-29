@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth/AuthContext";
 
 function Navbar() {
-  const { username, token } = useAuth();
+  const { username, token, logout } = useAuth();
   const navigate = useNavigate();
 
   const isLoggedIn = !!token;
@@ -18,10 +18,14 @@ function Navbar() {
     navigate("/login");
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
-        {/* Wrapper */}
         <Box
           sx={{
             width: "100%",
@@ -30,7 +34,7 @@ function Navbar() {
             alignItems: "center",
           }}
         >
-          {/* Left side (Logo) */}
+          {/* Logo */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <LaptopMacIcon />
             <Typography variant="h6">Laptop Store</Typography>
@@ -40,12 +44,18 @@ function Navbar() {
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             {isLoggedIn ? (
               <>
-                <Typography variant="body1">
-                  {username || ""}
-                </Typography>
+                <Typography variant="body1">{username}</Typography>
                 <Avatar>
                   {username ? username[0].toUpperCase() : "U"}
                 </Avatar>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  color="inherit"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
               </>
             ) : (
               <Button
@@ -64,5 +74,7 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
 
 

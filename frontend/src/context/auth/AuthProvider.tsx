@@ -1,26 +1,37 @@
 import { useState } from "react";
-import type { ReactNode} from "react";
+import type { ReactNode } from "react";
 import AuthContext from "./AuthContext";
 
 type Props = {
   children: ReactNode;
 };
 
+const USERNAME_KEY = "username";
+const TOKEN_KEY = "token";
+
 function AuthProvider({ children }: Props) {
   const [username, setUsername] = useState(
-    localStorage.getItem("username") || ""
+    localStorage.getItem(USERNAME_KEY) || ""
   );
 
-  const [token, setToken] = useState(
-    localStorage.getItem("token") || ""
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem(TOKEN_KEY)
   );
 
   const login = (username: string, token: string) => {
     setUsername(username);
     setToken(token);
 
-    localStorage.setItem("username", username);
-    localStorage.setItem("token", token);
+    localStorage.setItem(USERNAME_KEY, username);
+    localStorage.setItem(TOKEN_KEY, token);
+  };
+
+  const logout = () => {
+    setUsername("");
+    setToken(null);
+
+    localStorage.removeItem(USERNAME_KEY);
+    localStorage.removeItem(TOKEN_KEY);
   };
 
   return (
@@ -29,6 +40,7 @@ function AuthProvider({ children }: Props) {
         username,
         token,
         login,
+        logout,
       }}
     >
       {children}
