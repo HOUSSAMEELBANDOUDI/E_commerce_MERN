@@ -5,8 +5,10 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import type { Product } from "../types/Product";
+import { useCart } from "../context/Cart/CartContext";
 
 function ProductCard(product: Product) {
+  const {addItemToCart} = useCart();
   return (
     <Card>
       <CardMedia
@@ -27,7 +29,7 @@ function ProductCard(product: Product) {
       </CardContent>
 
       <CardActions>
-        <Button variant="contained" size="small">
+        <Button variant="contained" size="small" onClick={()=>addItemToCart(product._id)}>
           add to cart
         </Button>
       </CardActions>
