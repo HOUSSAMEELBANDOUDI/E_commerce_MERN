@@ -19,7 +19,7 @@ router.get("/", jwtMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const user = req.user._id;
 
-    const cart = await getActiveCartForUser({ user });
+    const cart = await getActiveCartForUser({ user,populateProduct:true });
 
     res.status(200).send(cart);
   } catch (error) {
