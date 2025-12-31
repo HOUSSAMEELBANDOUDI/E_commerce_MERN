@@ -4,13 +4,20 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+
 import type { Product } from "../types/Product";
 import { useCart } from "../context/Cart/CartContext";
 
+
 function ProductCard(product: Product) {
-  const {addItemToCart} = useCart();
+  const { addItemToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addItemToCart(product._id);
+  };
+
   return (
-    <Card>
+    <Card sx={{ height: "100%" }}>
       <CardMedia
         component="img"
         height="200"
@@ -29,8 +36,12 @@ function ProductCard(product: Product) {
       </CardContent>
 
       <CardActions>
-        <Button variant="contained" size="small" onClick={()=>addItemToCart(product._id)}>
-          add to cart
+        <Button
+          variant="contained"
+          size="small"
+          onClick={handleAddToCart}
+        >
+          Add to cart
         </Button>
       </CardActions>
     </Card>
@@ -38,3 +49,4 @@ function ProductCard(product: Product) {
 }
 
 export default ProductCard;
+

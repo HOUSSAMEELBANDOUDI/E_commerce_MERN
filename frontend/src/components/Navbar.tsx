@@ -10,24 +10,22 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LaptopMacIcon from "@mui/icons-material/LaptopMac";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth/AuthContext";
+import { useCart } from "../context/Cart/CartContext";
 
 function Navbar() {
   const { username, token, logout } = useAuth();
+  const { cartItems } = useCart();
   const navigate = useNavigate();
 
   const isLoggedIn = !!token;
 
-  const handleLoginClick = () => {
-    navigate("/login");
+  const goHome = () => {
+    navigate("/");
   };
 
   const handleLogout = () => {
     logout();
     navigate("/");
-  };
-
-  const handleCartClick = () => {
-    navigate("/cart");
   };
 
   return (
@@ -41,17 +39,27 @@ function Navbar() {
             alignItems: "center",
           }}
         >
-          {/* Logo */}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          {/* ✅ Logo clickable */}
+          <Button
+            onClick={goHome}
+            color="inherit"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              textTransform: "none", // يمنع الحروف الكابيتال
+              fontSize: "1.25rem",
+            }}
+          >
             <LaptopMacIcon />
             <Typography variant="h6">Laptop Store</Typography>
-          </Box>
+          </Button>
 
           {/* Right side */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             {isLoggedIn && (
-              <IconButton color="inherit" onClick={handleCartClick}>
-                <Badge badgeContent={4} color="error">
+              <IconButton color="inherit" onClick={() => navigate("/cart")}>
+                <Badge badgeContent={cartItems.length} color="error">
                   <ShoppingCartIcon />
                 </Badge>
               </IconButton>
@@ -76,7 +84,7 @@ function Navbar() {
               <Button
                 variant="contained"
                 size="small"
-                onClick={handleLoginClick}
+                onClick={() => navigate("/login")}
               >
                 Login
               </Button>

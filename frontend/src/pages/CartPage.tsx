@@ -1,43 +1,10 @@
-import { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { useAuth } from "../context/auth/AuthContext";
-import { BASE_URL } from "../constants/api";
+import Box from "@mui/material/Box";
+import { useCart } from "../context/Cart/CartContext";
 
 function Cart() {
-  const { token } = useAuth();
-  const [cart, setCart] = useState(null);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (!token) return;
-
-    const fetchCart = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/cart`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("TOKEN:", token);
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch cart");
-        }
-
-        const data = await response.json();
-        console.log("TOKEN:", token);
-        console.log("Data:", data);
-
-
-        setCart(data);
-      } catch  {
-        setError("Error loading user cart");
-      }
-    };
-
-    fetchCart();
-  }, [token]);
+  const { cartItems, total } = useCart();
 
   return (
     <Container sx={{ mt: 4 }}>
@@ -45,10 +12,30 @@ function Cart() {
         Cart
       </Typography>
 
-      {error && <Typography color="error">{error}</Typography>}
+      {cartItems.length === 0 ? (
+        <Typography>Your cart is empty</Typography>
+      ) : (
+        <>
+          {cartItems.map((item) => (
+            <Box
+              key={item.productId}
+              sx={{
+                border: "1px solid #ddd",
+                borderRadius: 2,
+                p: 2,
+                mb: 2,
+              }}
+            >
+              <Typography variant="h6">{item.title}</Typography>
+              <Typography>Quantity: {item.quantity}</Typography>
+              <Typography>Price: ${item.price}</Typography>
+            </Box>
+          ))}
 
-      {cart && (
-        <pre>{JSON.stringify(cart, null, 2)}</pre>
+          <Typography variant="h5" mt={3}>
+            Total: ${total}
+          </Typography>
+        </>
       )}
     </Container>
   );

@@ -11,7 +11,7 @@ export async function addToCart(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      productId,
+      product:productId,
       quantity: 1, // ثابتة زي ما اتفقنا
     }),
   });
