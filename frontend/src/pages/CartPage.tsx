@@ -6,7 +6,12 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import { useCart } from "../context/Cart/CartContext";
 
 function Cart() {
-  const { cartItems, total } = useCart();
+  const { cartItems, total, updateItemInCart } = useCart();
+
+  const handleUpdate = (productId: string, quantity: number) => {
+    if (quantity <= 0) return; // حماية
+    updateItemInCart(productId, quantity);
+  };
 
   return (
     <Container fixed sx={{ mt: 4 }}>
@@ -18,7 +23,6 @@ function Cart() {
         <Typography>Your cart is empty</Typography>
       ) : (
         <>
-          {/* 🧾 Cart Items */}
           <Box display="flex" flexDirection="column" gap={2}>
             {cartItems.map((item) => (
               <Box
@@ -32,7 +36,7 @@ function Cart() {
                   alignItems: "center",
                 }}
               >
-                {/* Left: Image + Info */}
+                {/* Left */}
                 <Box display="flex" alignItems="center" gap={2}>
                   <img
                     src={item.image}
@@ -50,15 +54,33 @@ function Cart() {
                   </Box>
                 </Box>
 
-                {/* Right: Actions */}
+                {/* Right */}
                 <Box display="flex" alignItems="center" gap={2}>
                   <ButtonGroup size="small" variant="outlined">
-                    <Button>-</Button>
+                    <Button
+                      onClick={() =>
+                        handleUpdate(item.productId, item.quantity - 1)
+                      }
+                    >
+                      -
+                    </Button>
+
                     <Button disabled>{item.quantity}</Button>
-                    <Button>+</Button>
+
+                    <Button
+                      onClick={() =>
+                        handleUpdate(item.productId, item.quantity + 1)
+                      }
+                    >
+                      +
+                    </Button>
                   </ButtonGroup>
 
-                  <Button color="error" size="small">
+                  <Button
+                    color="error"
+                    size="small"
+                    onClick={() => handleUpdate(item.productId, 0)}
+                  >
                     Remove
                   </Button>
                 </Box>
@@ -66,7 +88,7 @@ function Cart() {
             ))}
           </Box>
 
-          {/* 💰 Total */}
+          {/* Total */}
           <Box
             sx={{
               mt: 4,

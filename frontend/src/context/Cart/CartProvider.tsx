@@ -72,6 +72,37 @@ function CartProvider({ children }: { children: React.ReactNode }) {
       setError("Failed to add to cart");
     }
   };
+  const updateItemInCart = async (productId: string, quantity: number) => {
+  if (!token) return;
+
+  // ⛔ guard
+  if (quantity <= 0) return;
+
+  try {
+    const res = await fetch(`${BASE_URL}/cart/items`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        product: productId,
+        quantity,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error();
+    }
+
+    const cart = await res.json();
+    mapCart(cart);
+    setError("");
+  } catch {
+    setError("Failed to update cart item");
+  }
+};
+
 
   return (
     <CartContext.Provider
@@ -79,6 +110,7 @@ function CartProvider({ children }: { children: React.ReactNode }) {
         cartItems,
         total,
         addItemToCart,
+         updateItemInCart,
       }}
     >
       {children}
