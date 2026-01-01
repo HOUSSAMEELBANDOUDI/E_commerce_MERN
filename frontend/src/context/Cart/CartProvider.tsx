@@ -123,6 +123,32 @@ function CartProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // CartProvider.tsx
+const clearCart = async () => {
+  if (!token) return;
+
+  try {
+    const res = await fetch(`${BASE_URL}/cart`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error();
+    }
+
+    // 👇 بما إن الكارت اتفضت خلاص
+    setCartItems([]);
+    setTotal(0);
+    setError("");
+  } catch {
+    setError("Failed to clear cart");
+  }
+};
+
+
   return (
     <CartContext.Provider
       value={{
@@ -131,6 +157,7 @@ function CartProvider({ children }: { children: React.ReactNode }) {
         addItemToCart,
         updateItemInCart,
         removeItemFromCart,
+        clearCart,
       }}
     >
       {children}

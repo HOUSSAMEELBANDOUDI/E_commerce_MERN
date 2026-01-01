@@ -11,6 +11,7 @@ function Cart() {
     total,
     updateItemInCart,
     removeItemFromCart,
+    clearCart,
   } = useCart();
 
   const handleUpdate = (productId: string, quantity: number) => {
@@ -22,16 +23,40 @@ function Cart() {
     removeItemFromCart(productId);
   };
 
+  const handleClearCart = () => {
+    clearCart();
+  };
+
   return (
     <Container fixed sx={{ mt: 4 }}>
-      <Typography variant="h4" mb={3}>
-        Cart
-      </Typography>
+      {/* Header */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={3}
+      >
+        <Typography variant="h4">Cart</Typography>
 
+        {cartItems.length > 0 && (
+          <Button
+            color="error"
+            variant="outlined"
+            onClick={handleClearCart}
+          >
+            Clear Cart
+          </Button>
+        )}
+      </Box>
+
+      {/* Empty cart */}
       {cartItems.length === 0 ? (
-        <Typography>Your cart is empty</Typography>
+        <Typography color="text.secondary">
+          Your cart is empty, please start shopping 🛒
+        </Typography>
       ) : (
         <>
+          {/* Items */}
           <Box display="flex" flexDirection="column" gap={2}>
             {cartItems.map((item) => (
               <Box
@@ -120,3 +145,4 @@ function Cart() {
 }
 
 export default Cart;
+
