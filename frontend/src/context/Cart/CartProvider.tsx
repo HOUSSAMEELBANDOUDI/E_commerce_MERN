@@ -11,6 +11,7 @@ function CartProvider({ children }: { children: React.ReactNode }) {
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [total, setTotal] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState("");
 
   // ✅ mapper واحد فقط
