@@ -21,7 +21,7 @@ function CartProvider({ children }: { children: React.ReactNode }) {
       productId: item.product._id,
       title: item.product.title,
       image: item.product.image,
-      price: item.unitPrice,
+      price: item.unitPrice, // ✅ صح
       quantity: item.quantity,
     }));
 
@@ -45,9 +45,7 @@ function CartProvider({ children }: { children: React.ReactNode }) {
           },
         });
 
-        if (!res.ok) {
-          throw new Error();
-        }
+        if (!res.ok) throw new Error();
 
         const cart = await res.json();
         mapCart(cart);
@@ -72,37 +70,58 @@ function CartProvider({ children }: { children: React.ReactNode }) {
       setError("Failed to add to cart");
     }
   };
+
+  // ✅ update item
   const updateItemInCart = async (productId: string, quantity: number) => {
-  if (!token) return;
+    if (!token) return;
 
-  // ⛔ guard
-  if (quantity <= 0) return;
+    // ⛔ guard
+    if (quantity <= 0) return;
 
-  try {
-    const res = await fetch(`${BASE_URL}/cart/items`, {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        product: productId,
-        quantity,
-      }),
-    });
+    try {
+      const res = await fetch(`${BASE_URL}/cart/items`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          product: productId,
+          quantity,
+        }),
+      });
 
-    if (!res.ok) {
-      throw new Error();
+      if (!res.ok) throw new Error();
+
+      const cart = await res.json();
+      mapCart(cart);
+      setError("");
+    } catch {
+      setError("Failed to update cart item");
     }
+  };
 
-    const cart = await res.json();
-    mapCart(cart);
-    setError("");
-  } catch {
-    setError("Failed to update cart item");
-  }
-};
+  // ✅ remove item
+  const removeItemFromCart = async (productId: string) => {
+    if (!token) return;
 
+    try {
+      const res = await fetch(`${BASE_URL}/cart/items/${productId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error();
+
+      const cart = await res.json(); // ✅ active cart
+      mapCart(cart);                // ✅ مهم جدًا
+      setError("");
+    } catch {
+      setError("Failed to remove item from cart");
+    }
+  };
 
   return (
     <CartContext.Provider
@@ -110,7 +129,8 @@ function CartProvider({ children }: { children: React.ReactNode }) {
         cartItems,
         total,
         addItemToCart,
-         updateItemInCart,
+        updateItemInCart,
+        removeItemFromCart,
       }}
     >
       {children}
@@ -119,4 +139,5 @@ function CartProvider({ children }: { children: React.ReactNode }) {
 }
 
 export default CartProvider;
+
 

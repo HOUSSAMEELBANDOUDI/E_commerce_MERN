@@ -6,11 +6,20 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import { useCart } from "../context/Cart/CartContext";
 
 function Cart() {
-  const { cartItems, total, updateItemInCart } = useCart();
+  const {
+    cartItems,
+    total,
+    updateItemInCart,
+    removeItemFromCart,
+  } = useCart();
 
   const handleUpdate = (productId: string, quantity: number) => {
-    if (quantity <= 0) return; // حماية
+    if (quantity <= 0) return;
     updateItemInCart(productId, quantity);
+  };
+
+  const handleRemove = (productId: string) => {
+    removeItemFromCart(productId);
   };
 
   return (
@@ -79,7 +88,7 @@ function Cart() {
                   <Button
                     color="error"
                     size="small"
-                    onClick={() => handleUpdate(item.productId, 0)}
+                    onClick={() => handleRemove(item.productId)}
                   >
                     Remove
                   </Button>
