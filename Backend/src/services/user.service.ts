@@ -54,5 +54,5 @@ export const login = async ({ email, password }: LoginParams) => {
 
 const JWT_SECRET  = process.env.JWT_SECRET as string;
 const generateToken = (data: any) => {
-  return jwt.sign(data, JWT_SECRET); // التوكن صلاحيتها 24 ساعة
+  return jwt.sign(data, JWT_SECRET); 
 };
