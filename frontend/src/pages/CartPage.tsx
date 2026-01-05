@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useCart } from "../context/Cart/CartContext";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const {
@@ -13,6 +14,8 @@ function Cart() {
     removeItemFromCart,
     clearCart,
   } = useCart();
+
+  const navigate = useNavigate();
 
   const handleUpdate = (productId: string, quantity: number) => {
     if (quantity <= 0) return;
@@ -25,6 +28,10 @@ function Cart() {
 
   const handleClearCart = () => {
     clearCart();
+  };
+
+  const handleCheckout = () => {
+    navigate("/checkout");
   };
 
   return (
@@ -122,21 +129,37 @@ function Cart() {
             ))}
           </Box>
 
-          {/* Total */}
+          {/* Total + Checkout */}
           <Box
             sx={{
               mt: 4,
               p: 2,
               borderTop: "1px solid #ddd",
               display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              flexDirection: "column",
+              gap: 2,
             }}
           >
-            <Typography variant="h5">Total</Typography>
-            <Typography variant="h5">
-              {total.toLocaleString()}$
-            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h5">Total</Typography>
+              <Typography variant="h5">
+                {total.toLocaleString()}$
+              </Typography>
+            </Box>
+
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleCheckout}
+            >
+              Go To Checkout
+            </Button>
           </Box>
         </>
       )}

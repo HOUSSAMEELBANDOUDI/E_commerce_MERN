@@ -148,6 +148,36 @@ const clearCart = async () => {
   }
 };
 
+const checkout = async (address: string) => {
+  if (!token) return false;
+
+  try {
+    const res = await fetch(`${BASE_URL}/cart/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ address }),
+    });
+    
+
+    if (!res.ok) return false;
+
+    // ✅ فضي الكارت بعد نجاح الأوردر
+    //setCartItems([]);
+    //setTotal(0);
+    //("");
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    setError("Checkout failed");
+    return false;
+  }
+};
+
+
 
   return (
     <CartContext.Provider
@@ -158,6 +188,7 @@ const clearCart = async () => {
         updateItemInCart,
         removeItemFromCart,
         clearCart,
+        checkout,
       }}
     >
       {children}

@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 3001;
 app.use("/user", userRoute);
 app.use("/product", productRoutes);
 app.use("/cart", cartRoute);
+//app.use("/chekout", cartRoute);
 
 
 // Middleware
