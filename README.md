@@ -55,6 +55,8 @@ The application includes authentication, product management, cart functionality,
 
 ## 📂 Project Structure
 
+
+
 e_commerce_project/
 │
 ├── backend/
@@ -91,22 +93,26 @@ PORT=3001
 MONGO_URI=mongodb://127.0.0.1:27017/ecommerce
 JWT_SECRET=your_secret_key
 
-▶️ How to Run the Project
-1️⃣ Clone the repository
+
+
+##▶️ How to Run the Project
+
+
+##1️⃣ Clone the repository
 git clone https://github.com/your-username/e-commerce-project.git
 cd e-commerce-project
 
-2️⃣ Run Backend
+##2️⃣ Run Backend
 cd backend
 npm install
 npm run dev
 
 
-Backend runs on:
+##Backend runs on:
 
 http://localhost:3001
 
-3️⃣ Run Frontend
+##3️⃣ Run Frontend
 cd frontend
 npm install
 npm run dev
