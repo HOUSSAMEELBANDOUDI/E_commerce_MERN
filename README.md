@@ -1,123 +1,172 @@
-# 🛒 Full-Stack E-Commerce Application
+# E-Commerce MERN Application
 
-A **full-stack e-commerce web application** built with **React + TypeScript** on the frontend and **Express.js + TypeScript** on the backend.  
-The application includes authentication, product management, cart functionality, and secure API communication.
+A full-stack e-commerce web application built with **React + TypeScript** on the frontend and **Express.js + TypeScript** on the backend.
+The application includes authentication, product management, cart functionality, checkout, orders, and secure API communication.
 
 ---
 
-## 🚀 Tech Stack
+## Tech Stack
 
 ### Frontend
-- ⚛️ React
-- 🟦 TypeScript
-- ⚡ Vite
-- 🎨 Material UI (MUI)
-- 🔀 React Router
-- 🧠 Context API (Auth & Cart)
-- 🌐 Fetch API
+- **React 19** + **TypeScript**
+- **Vite** — fast dev server & build tool
+- **Material UI (MUI)** — UI components
+- **React Router v7** — client-side routing
+- **Context API** — state management (Auth & Cart)
 
 ### Backend
-- 🟩 Node.js
-- 🚂 Express.js
-- 🟦 TypeScript
-- 🔐 JWT Authentication
-- 🍃 MongoDB
-- 🧬 Mongoose
+- **Node.js** + **Express.js 5**
+- **TypeScript**
+- **MongoDB** + **Mongoose**
+- **JWT** — authentication
+- **bcrypt** — password hashing
 
 ---
 
-## ✨ Features
+## Features
 
-### 👤 Authentication
-- User registration
-- User login
-- JWT-based authentication
+### Authentication
+- User registration & login
+- JWT-based authentication with Bearer tokens
+- Password hashing with bcrypt
 - Protected routes (frontend & backend)
 
-### 🛍️ Products
-- Fetch products from database
-- Display product list
-- Product card UI
+### Products
+- Fetch products from MongoDB
+- Display product list with ProductCard component
+- Responsive product grid
 
-### 🛒 Cart
-- Add product to cart
-- View cart items
-- Calculate total price
+### Cart
+- Add / remove products from cart
+- View cart items & calculate total price
 - Global cart state using Context API
 - Secure cart API (authentication required)
 
-### 🔐 Security
-- Protected backend routes with middleware
-- Authorization using Bearer Token
-- Frontend route protection using React Router
+### Orders & Checkout
+- Checkout page
+- Order placement & order history
+
+### Security
+- JWT middleware for protected backend routes
+- Frontend route protection with ProtectedRoute component
+- CORS configuration
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
-
-
-e_commerce_project/
+```
+E_commerce_MERN/
 │
-├── backend/
-│ ├── src/
-│ │ ├── routes/
-│ │ ├── controllers/
-│ │ ├── services/
-│ │ ├── models/
-│ │ ├── middleware/
-│ │ └── index.ts
-│ └── package.json
+├── Backend/
+│   ├── src/
+│   │   ├── index.ts              # Express server entry point
+│   │   ├── routes/
+│   │   │   ├── userRoute.ts      # Auth routes (register/login)
+│   │   │   ├── product.ts        # Product routes
+│   │   │   └── cartRoute.ts      # Cart routes
+│   │   ├── services/
+│   │   │   ├── user.service.ts   # User business logic
+│   │   │   ├── productService.ts # Product business logic
+│   │   │   └── cartService.ts    # Cart business logic
+│   │   ├── models/
+│   │   │   ├── userModel.ts      # User schema
+│   │   │   ├── productModel.ts   # Product schema
+│   │   │   ├── cartModel.ts      # Cart schema
+│   │   │   └── orderModel.ts     # Order schema
+│   │   └── middlewares/
+│   │       └── validateJWT.ts    # JWT auth middleware
+│   └── package.json
 │
 ├── frontend/
-│ ├── src/
-│ │ ├── pages/
-│ │ ├── components/
-│ │ ├── context/
-│ │ ├── cart/
-│ │ ├── services/
-│ │ └── App.tsx
-│ └── package.json
+│   ├── src/
+│   │   ├── App.tsx               # Main app with routing
+│   │   ├── main.tsx              # React entry point
+│   │   ├── pages/
+│   │   │   ├── Homepage.tsx      # Product listing
+│   │   │   ├── LoginPage.tsx     # Login form
+│   │   │   ├── RegisterPage.tsx  # Registration form
+│   │   │   ├── CartPage.tsx      # Cart view
+│   │   │   ├── CheckoutPage.tsx  # Checkout flow
+│   │   │   └── OrderPage.tsx     # Order history
+│   │   ├── components/
+│   │   │   ├── Navbar.tsx        # Navigation bar
+│   │   │   ├── ProductCard.tsx   # Product display card
+│   │   │   └── ProtectedRoute.tsx# Route guard
+│   │   ├── context/
+│   │   │   ├── auth/             # Auth context & provider
+│   │   │   └── Cart/             # Cart context, provider & service
+│   │   ├── constants/
+│   │   │   └── api.ts            # API base URL
+│   │   └── types/
+│   │       ├── Product.ts        # Product type definition
+│   │       └── CartItem.ts       # CartItem type definition
+│   └── package.json
 │
 └── README.md
-
+```
 
 ---
 
-## ⚙️ Environment Variables
+## Environment Variables
 
-Create a `.env` file inside the **backend** folder:
+Create a `.env` file inside the **Backend** folder:
 
 ```env
 PORT=3001
 MONGO_URI=mongodb://127.0.0.1:27017/ecommerce
 JWT_SECRET=your_secret_key
+```
 
+---
 
+## How to Run the Project
 
-##▶️ How to Run the Project
+### 1. Clone the repository
 
+```bash
+git clone https://github.com/HOUSSAMEELBANDOUDI/E_commerce_MERN.git
+cd E_commerce_MERN
+```
 
-##1️⃣ Clone the repository
-git clone https://github.com/your-username/e-commerce-project.git
-cd e-commerce-project
+### 2. Run Backend
 
-##2️⃣ Run Backend
-cd backend
+```bash
+cd Backend
 npm install
 npm run dev
+```
 
+Backend runs on: **http://localhost:3001**
 
-##Backend runs on:
+### 3. Run Frontend
 
-http://localhost:3001
-
-##3️⃣ Run Frontend
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
+Frontend runs on: **http://localhost:5173**
 
-Frontend runs on:
+---
 
-http://localhost:5173
+## API Endpoints
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/user/register` | Register a new user | No |
+| POST | `/user/login` | Login & get JWT token | No |
+| GET | `/products` | Get all products | No |
+| POST | `/cart` | Add item to cart | Yes |
+| GET | `/cart` | Get user's cart | Yes |
+
+---
+
+## Author
+
+**Houssame El Bandoudi** — [GitHub](https://github.com/HOUSSAMEELBANDOUDI)
+
+## License
+
+This project is open source and available for educational purposes.
